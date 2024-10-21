@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Load the .env file
-if [ -f .env ]; then
-  export $(grep -v '^#' .env | xargs)
+# Load the .env file if it exists
+if [ -f "$(dirname "$0")/.env" ]; then
+    export $(grep -v '^#' "$(dirname "$0")/.env" | xargs)
 fi
 
 # Variables
