@@ -6,7 +6,7 @@ if [ -f "$(dirname "$0")/.env" ]; then
 fi
 
 # Check for required env variables
-if [[ -z "$BACKUP_API_TOKEN" || -z "$BACKUP_DIR" ]]; then
+if [[ -z "$BACKUP_API_TOKEN" || -z "$BACKUP_DIR" || -z "$BACKUP_USER" ]]; then
     echo "Error: One or more required variables are not set."
     exit 1
 fi
