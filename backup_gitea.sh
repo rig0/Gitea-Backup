@@ -5,8 +5,13 @@ if [ -f "$(dirname "$0")/.env" ]; then
     export $(grep -v '^#' "$(dirname "$0")/.env" | xargs)
 fi
 
+# Check for required env variables
+if [[ -z "$BACKUP_API_TOKEN" || -z "$BACKUP_DIR" ]]; then
+    echo "Error: One or more required variables are not set."
+    exit 1
+fi
+
 # Variables
-BACKUP_DIR="/home/rambo/gitea_backups"
 TIMESTAMP=$(date +"%Y_%j_%H%M%S") # Year_DayOfYear_Time
 ARCHIVE_NAME="gitea_backup_${TIMESTAMP}.tar.gz"
 TARGET_ARCHIVE="${BACKUP_DIR}/${ARCHIVE_NAME}"
