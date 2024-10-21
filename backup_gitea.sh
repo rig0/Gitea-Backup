@@ -33,8 +33,8 @@ mkdir -p "$BACKUP_DIR"
 # Create the archive
 tar -czvf "$TARGET_ARCHIVE" "${DIRS[@]}" "$CONFIG_FILE"
 
-# Set the ownership to rambo:rambo
-chown rambo:rambo "$TARGET_ARCHIVE"
+# Set the ownership to $BACKUP_USER:$BACKUP_USER
+chown $BACKUP_USER:$BACKUP_USER "$TARGET_ARCHIVE"
 
 # Call API to pick up
 curl --location 'https://backups.rigslab.com/gitea' \
