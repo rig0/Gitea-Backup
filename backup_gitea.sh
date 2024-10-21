@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Load the .env file
+if [ -f .env ]; then
+  export $(grep -v '^#' .env | xargs)
+fi
+
 # Variables
 BACKUP_DIR="/home/rambo/gitea_backups"
 TIMESTAMP=$(date +"%Y_%j_%H%M%S") # Year_DayOfYear_Time
@@ -25,6 +30,14 @@ tar -czvf "$TARGET_ARCHIVE" "${DIRS[@]}" "$CONFIG_FILE"
 
 # Set the ownership to rambo:rambo
 chown rambo:rambo "$TARGET_ARCHIVE"
+
+# Call API to pick up
+curl --location 'https://backups.rigslab.com/gitea' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer $BACKUP_API_TOKEN' \
+--data '{
+    "backup_folder": $BACKUP_DIR
+}'
 
 # Output success message
 echo "Backup completed: $TARGET_ARCHIVE"
