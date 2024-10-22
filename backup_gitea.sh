@@ -6,7 +6,7 @@ if [ -f "$(dirname "$0")/.env" ]; then
 fi
 
 # Check for required env variables
-if [[ -z "$BACKUP_API_TOKEN" || -z "$BACKUP_DIR" || -z "$BACKUP_USER" ]]; then
+if [[ -z "$API_URL" || -z "$API_TOKEN" || -z "$BACKUP_DIR" || -z "$BACKUP_USER" ]]; then
     echo "Error: One or more required variables are not set."
     exit 1
 fi
@@ -37,9 +37,12 @@ tar -czvf "$TARGET_ARCHIVE" "${DIRS[@]}" "$CONFIG_FILE"
 chown $BACKUP_USER:$BACKUP_USER "$TARGET_ARCHIVE"
 
 # Call API to pick up
-curl --location 'https://backups.rigslab.com/gitea' \
+ENDPOINT="/backup"
+FULL_URL="${API_URL}${ENDPOINT}"
+
+curl --location "$FULL_URL" \
 --header "Content-Type: application/json" \
---header "Authorization: Bearer $BACKUP_API_TOKEN" \
+--header "Authorization: Bearer $API_TOKEN" \
 --data "{
     \"backup_folder\": \"$BACKUP_DIR\"
 }"
