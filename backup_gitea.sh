@@ -37,7 +37,7 @@ tar -czvf "$TARGET_ARCHIVE" "${DIRS[@]}" "$CONFIG_FILE"
 chown $BACKUP_USER:$BACKUP_USER "$TARGET_ARCHIVE"
 
 # Call API to pick up
-ENDPOINT="/backup"
+ENDPOINT="/gitea"
 FULL_URL="${API_URL}${ENDPOINT}"
 
 curl --location "$FULL_URL" \
